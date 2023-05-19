@@ -53,7 +53,7 @@ function imgToFullscreenlSize(evt) {
   instance.show();
 
   window.addEventListener("keydown", function (evt) {
-    if (evt.key === "Escape") {
+    if (evt.code === "Escape") {
       instance.close();
     }
   });
