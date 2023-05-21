@@ -31,7 +31,7 @@ gallery.addEventListener("click", imgToFullscreenlSize);
 function imgToFullscreenlSize(evt) {
   evt.preventDefault();
 
-  if (!evt.target.classList.contains("gallery__image")) {
+  if (evt.target.nodeName !== "IMG") {
     return;
   }
 
@@ -39,22 +39,39 @@ function imgToFullscreenlSize(evt) {
   const currentUrl = galleryItems.find(
     (img) => img.description === currentAlt
   ).original;
+  const html = `
+          <div class="modal">
+              <img
+                src="${currentUrl}"
+                alt="${currentAlt}"
+                width="100%"
+                height=auto
+              />
+          </div>
+      `;
 
-  const instance = basicLightbox.create(`
-        <div class="modal">
-            <img
-              src="${currentUrl}"
-              alt="${currentAlt}"
-              width="100%"
-              height=auto
-            />
-        </div>
-    `);
-  instance.show();
+  // const instance = basicLightbox.create(html);
+  // instance.show();
 
-  window.addEventListener("keydown", function (evt) {
-    if (evt.code === "Escape") {
-      instance.close();
-    }
+  // window.addEventListener("keydown", function (evt) {
+  //   if (evt.code === "Escape") {
+  //     instance.close();
+  //   }
+  // });
+
+  const instance = basicLightbox.create(html, {
+    onShow: (instance) =>
+      window.addEventListener("keydown", function (evt) {
+        if (evt.code === "Escape") {
+          instance.close();
+        }
+      }),
+    onClose: (instance) =>
+      window.removeEventListener("keydown", function (evt) {
+        if (evt.code === "Escape") {
+          instance.close();
+        }
+      }),
   });
+  instance.show();
 }
