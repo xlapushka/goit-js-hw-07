@@ -37,6 +37,12 @@ function imgToFullscreenlSize(evt) {
 
   const currentAlt = evt.target.alt;
   const currentUrl = evt.target.dataset.source;
+  const htmll = `<img
+                src="${currentUrl}"
+                width="100%"
+                height="auto"
+              />
+      `;
   const html = `
           <div class="modal">
               <img
@@ -57,7 +63,9 @@ function imgToFullscreenlSize(evt) {
   //   }
   // });
 
-
+  document.querySelector(".gallery__item").onclick = () => {
+    basicLightbox.create(htmll).show();
+  };
   
   const instance = basicLightbox.create(html, {
     onShow: (instance) => {
@@ -66,9 +74,9 @@ function imgToFullscreenlSize(evt) {
           instance.close();
         }
       });
-      window.addEventListener("scroll", function () {
-        instance.close();
-      });
+      // window.addEventListener("scroll", function () {
+      //   instance.close();
+      // });
     },
   
     onClose: (instance) => {
