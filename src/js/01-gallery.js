@@ -36,9 +36,7 @@ function imgToFullscreenlSize(evt) {
   }
 
   const currentAlt = evt.target.alt;
-  const currentUrl = galleryItems.find(
-    (img) => img.description === currentAlt
-  ).original;
+  const currentUrl = evt.target.dataset.source;
   const html = `
           <div class="modal">
               <img
@@ -59,19 +57,30 @@ function imgToFullscreenlSize(evt) {
   //   }
   // });
 
+
+  
   const instance = basicLightbox.create(html, {
-    onShow: (instance) =>
+    onShow: (instance) => {
       window.addEventListener("keydown", function (evt) {
         if (evt.code === "Escape") {
           instance.close();
         }
-      }),
-    onClose: (instance) =>
+      });
+      window.addEventListener("scroll", function () {
+        instance.close();
+      });
+    },
+  
+    onClose: (instance) => {
       window.removeEventListener("keydown", function (evt) {
         if (evt.code === "Escape") {
           instance.close();
         }
-      }),
+      })
+    },
   });
+
   instance.show();
+
 }
+
