@@ -37,21 +37,11 @@ function imgToFullscreenlSize(evt) {
 
   const currentAlt = evt.target.alt;
   const currentUrl = evt.target.dataset.source;
-  const htmll = `<img
+  const html = `<img
                 src="${currentUrl}"
                 width="100%"
                 height="auto"
               />
-      `;
-  const html = `
-          <div class="modal">
-              <img
-                src="${currentUrl}"
-                alt="${currentAlt}"
-                width="100%"
-                height=auto
-              />
-          </div>
       `;
 
   // const instance = basicLightbox.create(html);
@@ -63,32 +53,21 @@ function imgToFullscreenlSize(evt) {
   //   }
   // });
 
-  document.querySelector(".gallery__item").onclick = () => {
-    basicLightbox.create(htmll).show();
-  };
-  
   const instance = basicLightbox.create(html, {
     onShow: (instance) => {
-      window.addEventListener("keydown", function (evt) {
-        if (evt.code === "Escape") {
-          instance.close();
-        }
-      });
-      // window.addEventListener("scroll", function () {
-      //   instance.close();
-      // });
+      window.addEventListener("keydown", closeImgByEscape(evt));
     },
-  
+
     onClose: (instance) => {
-      window.removeEventListener("keydown", function (evt) {
-        if (evt.code === "Escape") {
-          instance.close();
-        }
-      })
+      window.removeEventListener("keydown", closeImgByEscape(evt));
     },
   });
 
   instance.show();
-
 }
 
+function closeImgByEscape(evt) {
+  if (evt.code === "Escape") {
+    instance.close();
+  }
+}
