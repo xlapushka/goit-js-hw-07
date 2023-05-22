@@ -52,22 +52,27 @@ function imgToFullscreenlSize(evt) {
   //     instance.close();
   //   }
   // });
-
+  
   const instance = basicLightbox.create(html, {
     onShow: (instance) => {
-      window.addEventListener("keydown", closeImgByEscape(evt));
+      window.addEventListener("keydown", closeImgByEsc);
     },
-
+  
     onClose: (instance) => {
-      window.removeEventListener("keydown", closeImgByEscape(evt));
+      window.removeEventListener("keydown", closeImgByEsc);
     },
   });
 
   instance.show();
-}
+  
+  function closeImgByEsc(evt) {
+        if (evt.code === "Escape") {
+          instance.close();
+        }
+  };
+};
 
-function closeImgByEscape(evt) {
-  if (evt.code === "Escape") {
-    instance.close();
-  }
-}
+
+
+
+
